@@ -2,7 +2,7 @@ from pathlib import Path
 
 import libcst as cst
 
-from docstrings.cst import FunctionAndClassVisitor
+from docstrings.generator import FunctionAndClassVisitor
 
 
 def process_module(file_path: str) -> bool:
@@ -47,7 +47,7 @@ def check_module(file_path: str) -> bool:
         except Exception as parse_err:
             print(f"Skipping {file_path} (parse error): {parse_err}")
             return False
-    
+
     except Exception as e:
         print(f"Error processing {file_path}: {e}")
         return False

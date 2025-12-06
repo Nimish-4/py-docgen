@@ -5,7 +5,6 @@ import pathspec
 
 # file paths are expected as - no argument (all python files in current directory) or specific file paths
 
-
 def load_gitignore(root: Path) -> pathspec.PathSpec:
     """
     Load patterns from .gitignore in the root directory.
