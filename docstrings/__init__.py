@@ -31,8 +31,8 @@ def main(paths, check, recursive, verbose):
             click.echo(f"[CHECK] {file.name}")
             check_module(file_path=file)
         else:
-            res = process_module(file_path=file)
             click.echo(f"[GENERATE] Generating docstring in {file.name}")
+            process_module(file_path=file)
 
 
 if __name__ == "__main__":

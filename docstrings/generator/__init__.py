@@ -1,6 +1,6 @@
 from .cst_parser import FunctionAndClassVisitor
 from .loader import get_python_files
-from .process import check_module, process_module
+from .writer import check_module, process_module
 
 __all__ = [
     "FunctionAndClassVisitor",

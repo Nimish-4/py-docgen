@@ -6,6 +6,9 @@ from docstrings.generator import FunctionAndClassVisitor
 
 
 def process_module(file_path: str) -> bool:
+    """
+    Function to write docstrings for classes and methods.
+    """
     try:
         path = Path(file_path)
         source_code = path.read_text(encoding="utf-8")
@@ -26,14 +29,14 @@ def process_module(file_path: str) -> bool:
         else:
             print(f"No changes in {file_path}")
 
-        return True
-
     except Exception as e:
         print(f"Error processing {file_path}: {e}")
-        return False
 
 
 def check_module(file_path: str) -> bool:
+    """
+    Function to check whether the code in `file_path` has docstrings.
+    """
     try:
         path = Path(file_path)
 

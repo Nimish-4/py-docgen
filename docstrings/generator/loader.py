@@ -5,6 +5,7 @@ import pathspec
 
 # file paths are expected as - no argument (all python files in current directory) or specific file paths
 
+
 def load_gitignore(root: Path) -> pathspec.PathSpec:
     """
     Load patterns from .gitignore in the root directory.
@@ -31,7 +32,9 @@ def is_python_file(path: Path) -> bool:
     return path.is_file() and path.suffix == ".py"
 
 
-def is_git_ignored(path, root, gitignore_pattern):
+def is_git_ignored(
+    path: Path, root: Path, gitignore_pattern: pathspec.PathSpec
+) -> bool:
     # empty gitignore
     if gitignore_pattern.patterns == []:
         return False
@@ -49,7 +52,7 @@ def get_python_files(
     root: Optional[Path] = None,
 ) -> List[Path]:
     """
-    Given a list of file or directory paths, return all valid Python files.
+    Given a list of files or directory paths, return all valid Python files.
     If no path is given, use the current directory.
     """
     root = root or Path.cwd()
@@ -68,16 +71,3 @@ def get_python_files(
             )
 
     return all_files
-
-
-def filter_excluded_files(
-    files: List[Path], excluded_names: Optional[List[str]] = None
-) -> List[Path]:
-    """
-    Filter out excluded files (e.g., from a `.gitignore`-like list).
-    For now, matches by file name only.
-    """
-    if not excluded_names:
-        excluded_names = [".gitignore", "__init__.py"]
-
-    return [f for f in files if f.name not in excluded_names]

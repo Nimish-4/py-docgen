@@ -1,18 +1,35 @@
+import pathlib
 from typing import List, Optional, Tuple
 
 import libcst as cst
 
-from docstrings.utils.templates import (DOCSTRING_FOR_CLASS,
-                                        DOCSTRING_FOR_FUNCTION)
+from docstrings.generator.templates import (DOCSTRING_FOR_CLASS,
+                                            DOCSTRING_FOR_FUNCTION)
 
 
 class FunctionAndClassVisitor(cst.CSTTransformer):
+    """
+    Class for parsing and modifying code inside a module.
+
+    The code is parsed using the parser from libcst. CST in this context is an
+    Concrete Syntax Tree. While parsing, we keep track of the indentation
+    level, which is used to correctly place the docstring inside the class
+    or method.
+    The visitor does not modify any function inside another function. Only outer
+    level functions and classes (along with their methods) are modified.
+
+    Arguments
+    ---------
+    file_path: pathlib.Path
+        Path location of module.
+
+    """
+
     def __init__(self, file_path=None):
         self.stack: List[Tuple[str, ...]] = []
         self.missing_docstrings = []
-        self.indent_level = 0  # no. of whitespaces at current level
+        self.indent_level = 0  # track no. of whitespaces at current level
         self.file_path = file_path
-        self.missing_docstrings = []
 
     def _build_indented_docstring(self, raw_text: str, indent_ws: str) -> str:
         lines = raw_text.strip("\n").splitlines()
@@ -25,7 +42,7 @@ class FunctionAndClassVisitor(cst.CSTTransformer):
 
         return "\n".join(formatted_lines)
 
-    def _get_indent_level(self, node):
+    def _get_indent_level(self, node: cst.CSTNode) -> int:
 
         if node.body.indent is not None:
             indent_ws = len(node.body.indent)
@@ -108,7 +125,7 @@ class FunctionAndClassVisitor(cst.CSTTransformer):
         return updated_node.with_changes(body=new_body)
 
     @classmethod
-    def _store_missing_docstrings(cls, file_path):
+    def _store_missing_docstrings(cls, file_path: pathlib.Path) -> cst.Module:
         with open(file_path, "r", encoding="utf-8") as f:
             source_code = f.read()
         module = cst.parse_module(source_code)
