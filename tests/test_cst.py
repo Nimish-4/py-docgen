@@ -7,13 +7,13 @@ from docstrings.generator import FunctionAndClassVisitor
 
 
 def test_function_docstring():
-    function_str = Path("docstrings/tests/testfiles/input_1.py").read_text(encoding="utf-8")
+    function_str = Path("tests/testfiles/input_1.py").read_text(encoding="utf-8")
 
     module = cst.parse_module(function_str)
     visitor = FunctionAndClassVisitor(file_path=None)
     modified_module = module.visit(visitor)
 
-    result_loc = Path("docstrings/tests/testfiles/expected_1.py")
+    result_loc = Path("tests/testfiles/expected_1.py")
     result_code = result_loc.read_text(encoding="utf-8")
 
     lines_modified = modified_module.code.split("\n")
@@ -29,13 +29,13 @@ def test_function_docstring():
 
 
 def test_class_docstring():
-    class_str = Path("docstrings/tests/testfiles/input_2.py").read_text(encoding="utf-8")
+    class_str = Path("tests/testfiles/input_2.py").read_text(encoding="utf-8")
 
     module = cst.parse_module(class_str)
     visitor = FunctionAndClassVisitor(file_path=None)
     modified_module = module.visit(visitor)
 
-    result_loc = Path("docstrings/tests/testfiles/expected_2.py")
+    result_loc = Path("tests/testfiles/expected_2.py")
     result_code = result_loc.read_text(encoding="utf-8")
 
     lines_modified = modified_module.code.split("\n")
@@ -50,13 +50,13 @@ def test_class_docstring():
 
 
 def test_mixed_docstring():
-    mixed_str = Path("docstrings/tests/testfiles/input_3.py").read_text(encoding="utf-8")
+    mixed_str = Path("tests/testfiles/input_3.py").read_text(encoding="utf-8")
 
     module = cst.parse_module(mixed_str)
     visitor = FunctionAndClassVisitor(file_path=None)
     modified_module = module.visit(visitor)
 
-    result_loc = Path("docstrings/tests/testfiles/expected_3.py")
+    result_loc = Path("tests/testfiles/expected_3.py")
     result_code = result_loc.read_text(encoding="utf-8")
 
     lines_modified = modified_module.code.split("\n")

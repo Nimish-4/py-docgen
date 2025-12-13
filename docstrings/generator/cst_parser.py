@@ -3,8 +3,7 @@ from typing import List, Optional, Tuple
 
 import libcst as cst
 
-from docstrings.templates import (DOCSTRING_FOR_CLASS,
-                                            DOCSTRING_FOR_FUNCTION)
+from docstrings.templates import DOCSTRING_FOR_CLASS, DOCSTRING_FOR_FUNCTION
 
 
 class FunctionAndClassVisitor(cst.CSTTransformer):
