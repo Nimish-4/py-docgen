@@ -51,9 +51,13 @@ class FunctionAndClassVisitor(cst.CSTTransformer):
         num_whitespaces = indent_ws
 
         for line in lines[1:]:
-            formatted_lines.append(num_whitespaces + line)
-        formatted_lines.append(num_whitespaces + '"""')
 
+            if not line.strip():        # skip unnecessary indentation for empty lines
+                formatted_lines.append(line)
+            else:
+                formatted_lines.append(num_whitespaces + line)
+
+        formatted_lines.append(num_whitespaces + '"""')
         return "\n".join(formatted_lines)
 
     def _get_indent_level(self, node: cst.CSTNode) -> int:

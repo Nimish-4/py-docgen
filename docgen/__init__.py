@@ -45,7 +45,3 @@ def main(
         else:
             click.echo(f"[GENERATE] Generating docstring in {file.name}")
             process_module(file_path=file, docstring_type=full)
-
-
-if __name__ == "__main__":
-    main()

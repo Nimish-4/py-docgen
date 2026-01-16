@@ -7,7 +7,10 @@ authors = [
 ]
 readme = "README.md"
 requires-python = ">=3.9"
-dependencies = ["click", "libcst", "pathspec", "pytest"]
+dependencies = ["click", "libcst", "pathspec"]
+
+[project.optional-dependencies]
+dev = ["pytest"]
 
 [project.scripts]
 docgen = "docgen:main"
