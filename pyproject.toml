@@ -1,5 +1,5 @@
 [project]
-name = "py-docgen"
+name = "py-docstrings"
 version = "0.1.0"
 description = "Automatically generate NumPy-style docstrings"
 authors = [
@@ -25,5 +25,6 @@ dev = ["pytest"]
 docgen = "docgen:main"
 
 [project.urls]
-Homepage = "https://github.com/Nimish-4/py-docgen"
-Repository = "https://github.com/Nimish-4/py-docgen"
+Homepage = "https://github.com/Nimish-4/py-docstrings"
+Repository = "https://github.com/Nimish-4/py-docstrings"
+
