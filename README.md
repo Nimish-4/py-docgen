@@ -4,8 +4,8 @@
 
 A command-line tool for generating Python docstrings using Concrete Syntax Trees (CST).
 
-`py-docgen` analyzes Python source code with [**LibCST**](https://github.com/Instagram/LibCST) and inserts docstrings while preserving
-original formatting, comments, and structure. `py-docgen` uses Concrete Syntax Trees, which 
+`py-docstrings` analyzes Python source code with [**LibCST**](https://github.com/Instagram/LibCST) and inserts docstrings while preserving
+original formatting, comments, and structure. `py-docstrings` uses Concrete Syntax Trees, which 
 retain the exact structure of the original source code. The primary interface is the CLI, with a
 few different options depending upon use.
 
@@ -16,7 +16,7 @@ few different options depending upon use.
 ## Installation
 
 ```bash
-pip install py-docgen
+pip install py-docstrings
 ```
 
 ## Basic Usage
@@ -117,3 +117,4 @@ Planned improvements include:
 ## License
 
 MIT License
+
