@@ -1,5 +1,5 @@
 <h1 align="center">
-<img src="logo.png" width="250" height="250"  border='0px'>
+<img src="logo.png" width="312" height="250"  border='0px'>
 </h1>
 
 A command-line tool for generating Python docstrings using Concrete Syntax Trees (CST).
