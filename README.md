@@ -1,5 +1,5 @@
 <h1 align="center">
-<img src="logo.png" width="312" height="250"  border='0px'>
+<img src="https://raw.githubusercontent.com/Nimish-4/py-docstrings/main/logo.png" width="312" height="250"  border='0px'>
 </h1>
 
 A command-line tool for generating Python docstrings using Concrete Syntax Trees (CST).
@@ -117,4 +117,5 @@ Planned improvements include:
 ## License
 
 MIT License
+
 
