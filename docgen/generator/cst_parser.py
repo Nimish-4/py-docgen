@@ -3,11 +3,14 @@ from typing import List, Optional, Tuple
 
 import libcst as cst
 
+from libcst.metadata import PositionProvider
+
 from docgen.templates import (
     DOCSTRING_FOR_CLASS,
     DOCSTRING_FOR_FUNCTION,
     DOCSTRING_FOR_CLASS_DEFAULT,
     DOCSTRING_FOR_FUNCTION_DEFAULT,
+    DOCSTRING_FOR_FUNCTION_CUSTOM,
 )
 
 
@@ -29,11 +32,14 @@ class FunctionAndClassVisitor(cst.CSTTransformer):
 
     """
 
+    METADATA_DEPENDENCIES = (PositionProvider,)
+
     def __init__(
         self,
         file_path: pathlib.Path = pathlib.Path.cwd(),
         docstring_type: bool = False,
     ):
+        
         self.stack: List[Tuple[str, ...]] = []
         self.missing_docstrings = []
         self.indent_level = 0  # track no. of whitespaces at current level
@@ -44,8 +50,26 @@ class FunctionAndClassVisitor(cst.CSTTransformer):
         else:
             self.class_docstring = DOCSTRING_FOR_CLASS
             self.function_docstring = DOCSTRING_FOR_FUNCTION
+        
+        
 
     def _build_indented_docstring(self, raw_text: str, indent_ws: str) -> str:
+        lines = raw_text.strip("\n").splitlines()
+        formatted_lines = ['"""' + lines[0]]
+        num_whitespaces = indent_ws
+        for line in lines[1:]:
+
+            if not line.strip():        # skip unnecessary indentation for empty lines
+                formatted_lines.append(line)
+            else:
+                formatted_lines.append(num_whitespaces + line)
+
+        print(formatted_lines[0:6])
+        formatted_lines.append(num_whitespaces + '"""')
+        return "\n".join(formatted_lines)
+
+    def _build_custom_docstring(self, raw_text: str, parameters, indent_ws):
+
         lines = raw_text.strip("\n").splitlines()
         formatted_lines = ['"""' + lines[0]]
         num_whitespaces = indent_ws
@@ -57,15 +81,36 @@ class FunctionAndClassVisitor(cst.CSTTransformer):
             else:
                 formatted_lines.append(num_whitespaces + line)
 
+        # formatted_lines.append(num_whitespaces + '"""')
+
+        parameters_list = [indent_ws + 'Parameters', indent_ws + '----------']
+        formatted_lines.append('')
+        formatted_lines.append(indent_ws + 'Parameters')
+        formatted_lines.append(indent_ws + '----------')
+
+        for p in parameters:
+            name = p.name.value
+            if 'self' == name.strip():
+                continue
+            line_1 = indent_ws + f"{name}: type (default:)"
+            line_2 = indent_ws + f"    Explanation of {name}"
+            formatted_lines.append(line_1)
+            formatted_lines.append(line_2)
+            formatted_lines.append('')
+        
         formatted_lines.append(num_whitespaces + '"""')
+        print(num_whitespaces, len(num_whitespaces))
+
         return "\n".join(formatted_lines)
 
     def _get_indent_level(self, node: cst.CSTNode) -> int:
+        
 
         if node.body.indent is not None:
             indent_ws = len(node.body.indent)
 
         elif node.body.body:
+            
             first_stmt = node.body.body[0]
             # If not string -> standard indent of 4 whitespaces
             indent_ws = (
@@ -76,8 +121,8 @@ class FunctionAndClassVisitor(cst.CSTTransformer):
             )
         else:
             indent_ws = 4
-
-        return indent_ws
+        pos = self.get_metadata(PositionProvider, node.body)
+        return pos.start.column
 
     def visit_ClassDef(self, node: cst.ClassDef) -> Optional[bool]:
 
@@ -131,11 +176,13 @@ class FunctionAndClassVisitor(cst.CSTTransformer):
             return updated_node
 
         self.missing_docstrings.append(("function", original_node.name.value))
-
+      
         # Determine indentation based on the body
-        final_docstring = self._build_indented_docstring(
-            self.function_docstring, indent_ws
-        )
+        #final_docstring = self._build_indented_docstring(
+        #    self.function_docstring, indent_ws
+        #)
+
+        final_docstring = self._build_custom_docstring(DOCSTRING_FOR_FUNCTION_CUSTOM, original_node.params.params, indent_ws)
 
         docstring_stmt = cst.SimpleStatementLine(
             body=[cst.Expr(value=cst.SimpleString(final_docstring))],

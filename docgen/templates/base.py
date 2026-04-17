@@ -6,11 +6,11 @@ there should be no blank lines after closing the docstring.
 
 Parameters
 ----------
-var1 : array_like
+var1: array_like
     Array_like means all those objects -- lists, nested lists, etc. --
     that can be converted to an array.
 
-*args : iterable
+*args: iterable
     Other arguments.
 
 Returns
@@ -57,4 +57,20 @@ x : int
 References
 ----------
 [1] https://numpydoc.readthedocs.io/en/latest/
+"""
+
+DOCSTRING_FOR_FUNCTION_CUSTOM = """Summarize the function in one line.
+
+Several sentences providing an extended description. Refer to
+variables using back-ticks, e.g. `var`. For functions (also method and module),
+there should be no blank lines after closing the docstring.
+
+Examples
+--------
+These are written in doctest format, and should illustrate how to
+use the function.
+
+>>> a = [1, 2, 3]
+>>> print([x + 3 for x in a])
+[4, 5, 6]
 """
