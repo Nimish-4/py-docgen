@@ -1,87 +1,53 @@
 def calculate(a, b):
-    """Summarize the function in one line.
+   """Summarize the function in one line.
 
-    Several sentences providing an extended description. Refer to
-    variables using back-ticks, e.g. `var`. For functions (also method and module),
-    there should be no blank lines after closing the docstring.
+   Several sentences providing an extended description. Refer to
+   variables using back-ticks, e.g. `var`. For functions (also method and module),
+   there should be no blank lines after closing the docstring.
 
-    Parameters
-    ----------
-    var1 : array_like
-        Array_like means all those objects -- lists, nested lists, etc. --
-        that can be converted to an array.  We can also refer to
-        variables like `var1`.
+   Parameters
+   ----------
+   a: type (default:)
+       Explanation of a.
 
-    var2 : int
-        The type above can either refer to an actual Python type
-        (e.g. ``int``), or describe the type of the variable in more
-        detail, e.g. ``(N,) ndarray`` or ``array_like``.
+   b: type (default:)
+       Explanation of b.
 
-    *args : iterable
-        Other arguments.
+   Returns
+   -------
+   describe : type
+       Explanation of return value named `describe`.
 
-    Returns
-    -------
-    type
-        Explanation of anonymous return value of type ``type``.
+   Examples
+   --------
 
-    describe : type
-        Explanation of return value named `describe`.
+   >>> a = [1, 2, 3]
+   >>> print([x + 3 for x in a])
+   [4, 5, 6]
+   """
+   return a + b
 
-    out : type
-        Explanation of `out`.
+def do_nothing():
+   """Summarize the function in one line.
 
-    type_without_description
+   Several sentences providing an extended description. Refer to
+   variables using back-ticks, e.g. `var`. For functions (also method and module),
+   there should be no blank lines after closing the docstring.
 
-    Other Parameters
-    ----------------
-    only_seldom_used_keyword : int, optional
-        Infrequently used parameters can be described under this optional
-        section to prevent cluttering the Parameters section.
-    **kwargs : dict
-        Other infrequently used keyword arguments. Note that all keyword
-        arguments appearing after the first parameter specified under the
-        Other Parameters section, should also be described under this
-        section.
+   Parameters
+   ----------
 
-    Raises
-    ------
-    BadException
-        Because you shouldn't have done that.
+   Returns
+   -------
+   describe : type
+       Explanation of return value named `describe`.
 
-    See Also
-    --------
-    numpy.array : Relationship (optional).
-    numpy.ndarray : Relationship (optional), which could be fairly long, in
-                    which case the line wraps here.
-    numpy.dot, numpy.linalg.norm, numpy.eye
+   Examples
+   --------
 
-    Notes
-    -----
-    Notes about the implementation algorithm (if needed).
-
-    This can have multiple paragraphs.
-
-    You may include some math:
-
-    .. math:: X(e^{j\\omega } ) = x(n)e^{ - j\\omega n}
-
-    And even use a Greek symbol like :math:`\\omega` inline.
-
-    References
-    ----------
-    Cite the relevant literature, e.g. [1]_.  You may also cite these
-    references in the notes section above.
-
-    .. [1] https://numpydoc.readthedocs.io/en/latest/format.html
-
-    Examples
-    --------
-    These are written in doctest format, and should illustrate how to
-    use the function.
-
-    >>> a = [1, 2, 3]
-    >>> print([x + 3 for x in a])
-    [4, 5, 6]
-    """
-    return a + b
+   >>> a = [1, 2, 3]
+   >>> print([x + 3 for x in a])
+   [4, 5, 6]
+   """
+   print("Do nothing")
+   return
