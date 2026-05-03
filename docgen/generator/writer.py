@@ -3,9 +3,10 @@ from pathlib import Path
 import libcst as cst
 
 from docgen.generator import FunctionAndClassVisitor
+from libcst.metadata import MetadataWrapper
 
 
-def process_module(file_path: Path, docstring_type: bool) -> bool:
+def process_module(file_path: Path, full_doc: bool) -> bool:
     """
     Function to write docstrings for classes and methods.
     """
@@ -21,10 +22,9 @@ def process_module(file_path: Path, docstring_type: bool) -> bool:
             print(f"Skipping {file_path} (parse error): {parse_err}")
             return False
 
-        visitor = FunctionAndClassVisitor(
-            file_path=file_path, docstring_type=docstring_type
-        )
-        modified_module = module.visit(visitor)
+        with_metadata = MetadataWrapper(module)
+        visitor = FunctionAndClassVisitor(file_path=file_path, full_doc=full_doc)
+        modified_module = with_metadata.visit(visitor)
 
         # check if the code has been modified
         if modified_module.code != source_code:
@@ -49,9 +49,7 @@ def check_module(file_path: Path) -> bool:
             file_path = Path(file_path)
 
         try:
-            module = FunctionAndClassVisitor()._store_missing_docstrings(
-                file_path
-            )
+            module = FunctionAndClassVisitor()._store_missing_docstrings(file_path)
             if module and module.missing_docstrings:
                 print(f"Missing docstrings in {module.file_path}:")
                 for kind, name in module.missing_docstrings:

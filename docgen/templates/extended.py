@@ -1,24 +1,10 @@
-DOCSTRING_FOR_FUNCTION = """Summarize the function in one line.
+DOCSTRING_FOR_FUNCTION_FULL = """Summarize the function in one line.
 
 Several sentences providing an extended description. Refer to
 variables using back-ticks, e.g. `var`. For functions (also method and module),
 there should be no blank lines after closing the docstring.
 
 Parameters
-----------
-var1 : array_like
-    Array_like means all those objects -- lists, nested lists, etc. --
-    that can be converted to an array.  We can also refer to
-    variables like `var1`.
-
-var2 : int
-    The type above can either refer to an actual Python type
-    (e.g. ``int``), or describe the type of the variable in more
-    detail, e.g. ``(N,) ndarray`` or ``array_like``.
-
-*args : iterable
-    Other arguments.
-
 Returns
 -------
 type
@@ -84,7 +70,7 @@ use the function.
 [4, 5, 6]
 """
 
-DOCSTRING_FOR_CLASS = """One line summary for the class and its purpose.
+DOCSTRING_FOR_CLASS_FULL = """One line summary for the class and its purpose.
 
 The __init__ method can be documented either here, or have its separate
 docstring in the method itself. Stick with one of the two choices.

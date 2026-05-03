@@ -15,12 +15,8 @@ def load_gitignore(root: Path) -> pathspec.PathSpec:
     gitignore_file = root / ".gitignore"
     if gitignore_file.exists():
         patterns = gitignore_file.read_text().splitlines()
-        return pathspec.PathSpec.from_lines(
-            pathspec.patterns.GitWildMatchPattern, patterns
-        )
-    return pathspec.PathSpec.from_lines(
-        pathspec.patterns.GitWildMatchPattern, []
-    )
+        return pathspec.PathSpec.from_lines("gitignore", patterns)
+    return pathspec.PathSpec.from_lines("gitignore", [])
 
 
 def get_root_dir(file_paths: Optional[List[str]] = None) -> Path:
@@ -70,9 +66,7 @@ def get_python_files(
         elif path.is_dir():
             iterator = path.rglob("*.py") if recursive else path.glob("*.py")
             all_files.extend(
-                f
-                for f in iterator
-                if f.is_file() and not is_git_ignored(f, root, spec)
+                f for f in iterator if f.is_file() and not is_git_ignored(f, root, spec)
             )
 
     return all_files

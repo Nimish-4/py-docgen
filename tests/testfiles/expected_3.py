@@ -40,7 +40,6 @@ class xyz:
     ----------
     [1] https://numpydoc.readthedocs.io/en/latest/
     """
-
     def __init__(self, a, b):
         """Summarize the function in one line.
 
@@ -50,18 +49,11 @@ class xyz:
 
         Parameters
         ----------
-        var1 : array_like
-            Array_like means all those objects -- lists, nested lists, etc. --
-            that can be converted to an array.  We can also refer to
-            variables like `var1`.
+        a: type (default:)
+            Explanation of a.
 
-        var2 : int
-            The type above can either refer to an actual Python type
-            (e.g. ``int``), or describe the type of the variable in more
-            detail, e.g. ``(N,) ndarray`` or ``array_like``.
-
-        *args : iterable
-            Other arguments.
+        b: type (default:)
+            Explanation of b.
 
         Returns
         -------
@@ -107,9 +99,9 @@ class xyz:
 
         You may include some math:
 
-        .. math:: X(e^{j\\omega } ) = x(n)e^{ - j\\omega n}
+        .. math:: X(e^{j\omega } ) = x(n)e^{ - j\omega n}
 
-        And even use a Greek symbol like :math:`\\omega` inline.
+        And even use a Greek symbol like :math:`\omega` inline.
 
         References
         ----------
