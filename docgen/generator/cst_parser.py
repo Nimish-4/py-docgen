@@ -12,7 +12,6 @@ from docgen.templates import (
     DOCSTRING_FOR_FUNCTION_FULL,
 )
 
-
 class FunctionAndClassVisitor(cst.CSTTransformer):
     """
     Class for parsing and modifying code inside a module.
@@ -159,14 +158,8 @@ class FunctionAndClassVisitor(cst.CSTTransformer):
             return updated_node
         self.missing_docstrings.append(("function", original_node.name.value))
 
-        if self.full_doc is False:
-            final_docstring = self._build_parametric_docstring(
-                self.function_docstring,
-                indent_ws,
-                parameters=original_node.params.params,
-            )
-        else:
-            final_docstring = self._build_parametric_docstring(
+
+        final_docstring = self._build_parametric_docstring(
                 self.function_docstring,
                 indent_ws,
                 parameters=original_node.params.params,
