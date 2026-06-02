@@ -3,5 +3,5 @@ def calculate(a, b, c=5):
 
 
 def do_nothing():
-    print("Do nothing")
-    return
+   print("Do nothing")
+   return
