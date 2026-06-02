@@ -1,5 +1,5 @@
 import pathlib
-from typing import List, Optional, Tuple
+from typing import List, Optional, Tuple, Sequence
 
 import libcst as cst
 
@@ -11,6 +11,7 @@ from docgen.templates import (
     DOCSTRING_FOR_CLASS_FULL,
     DOCSTRING_FOR_FUNCTION_FULL,
 )
+
 
 class FunctionAndClassVisitor(cst.CSTTransformer):
     """
@@ -51,23 +52,51 @@ class FunctionAndClassVisitor(cst.CSTTransformer):
             self.class_docstring = DOCSTRING_FOR_CLASS_FULL
             self.function_docstring = DOCSTRING_FOR_FUNCTION_FULL
 
-    def _build_normal_docstring(self, raw_text: str, indent_ws: str) -> str:
+    def _build_class_docstring(
+        self, raw_text: str, indent_ws: str, original_node: cst.ClassDef
+    ) -> str:
 
         lines = raw_text.strip("\n").splitlines()
         formatted_lines = ['"""' + lines[0]]
-        num_whitespaces = indent_ws
         for line in lines[1:]:
 
-            if line.strip() == "":  # skip unnecessary indentation for empty lines
+            if not line.strip():  # skip unnecessary indentation for empty lines
                 formatted_lines.append(line)
-            else:
-                formatted_lines.append(num_whitespaces + line)
 
-        formatted_lines.append(num_whitespaces + '"""')
+            elif line.strip() == "Parameters":
+                formatted_lines.append(indent_ws + "Parameters")
+                formatted_lines.append(indent_ws + "----------")
+
+                parameters = []
+                if original_node is not None:
+                    for n in original_node.body.body:
+                        if (
+                            isinstance(n, cst.FunctionDef)
+                            and n.name.value == "__init__"
+                        ):
+                            for p in n.params.params:
+                                if p.name.value != "self":
+                                    parameters.append(p.name.value)
+                            break
+
+                if parameters:
+                    for name in parameters:
+                        formatted_lines.append(indent_ws + f"{name}: type (default:)")
+                        formatted_lines.append(
+                            indent_ws + f"    Explanation of {name}."
+                        )
+                        formatted_lines.append("")
+                else:
+                    formatted_lines.append("")
+
+            else:
+                formatted_lines.append(indent_ws + line)
+
+        formatted_lines.append(indent_ws + '"""')
         return "\n".join(formatted_lines)
 
-    def _build_parametric_docstring(
-        self, raw_text: str, indent_ws: str, parameters=None
+    def _build_function_docstring(
+        self, raw_text: str, indent_ws: str, parameters: Sequence = None
     ):
 
         lines = raw_text.strip("\n").splitlines()
@@ -122,15 +151,9 @@ class FunctionAndClassVisitor(cst.CSTTransformer):
 
         self.missing_docstrings.append(("class", original_node.name.value))
 
-        # Determine indentation based on the body
-        if self.full_doc is False:
-            final_docstring = self._build_normal_docstring(
-                self.class_docstring, indent_ws
-            )
-        else:
-            final_docstring = self._build_normal_docstring(
-                self.class_docstring, indent_ws
-            )
+        final_docstring = self._build_class_docstring(
+            self.class_docstring, indent_ws, original_node
+        )
 
         docstring_stmt = cst.SimpleStatementLine(
             body=[cst.Expr(value=cst.SimpleString(final_docstring))],
@@ -158,12 +181,15 @@ class FunctionAndClassVisitor(cst.CSTTransformer):
             return updated_node
         self.missing_docstrings.append(("function", original_node.name.value))
 
-
-        final_docstring = self._build_parametric_docstring(
-                self.function_docstring,
-                indent_ws,
-                parameters=original_node.params.params,
-            )
+        final_docstring = self._build_function_docstring(
+            self.function_docstring,
+            indent_ws,
+            parameters=(
+                original_node.params.params
+                if original_node.name.value != "__init__"
+                else ()
+            ),
+        )
 
         docstring_stmt = cst.SimpleStatementLine(
             body=[cst.Expr(value=cst.SimpleString(final_docstring))],

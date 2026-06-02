@@ -85,13 +85,6 @@ Note
 The `self` parameter is not listed as the first parameter of methods.
 
 Parameters
-----------
-num : float
-    The number to be used for operations.
-
-msg : str (default: "")
-    Message to be displayed.
-
 Attributes
 ----------
 x : int
