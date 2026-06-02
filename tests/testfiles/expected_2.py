@@ -15,11 +15,11 @@ class xyz:
 
   Parameters
   ----------
-  num : float
-      The number to be used for operations.
+  arg_1: type (default:)
+      Explanation of arg_1.
 
-  msg : str (default: "")
-      Message to be displayed.
+  arg_2: type (default:)
+      Explanation of arg_2.
 
   Attributes
   ----------
@@ -47,11 +47,6 @@ class xyz:
 
         Parameters
         ----------
-        arg_1: type (default:)
-            Explanation of arg_1.
-
-        arg_2: type (default:)
-            Explanation of arg_2.
 
         Returns
         -------

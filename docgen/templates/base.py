@@ -29,13 +29,6 @@ After closing the class docstring, there should be one blank line to
 separate following codes (PEP257).
 
 Parameters
-----------
-num : float
-    The number to be used for operations.
-
-msg : str (default: "")
-    Message to be displayed.
-
 Attributes
 ----------
 x : int
